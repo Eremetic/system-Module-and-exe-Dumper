@@ -169,15 +169,15 @@ static ULONG Read_Write_File(IN LPVOID BaseAddr, IN WCHAR* DumpFolder, IN WCHAR*
 	}
 
 
-	IO_STATUS_BLOCK				  dirp_sb = { 0 },
-		filep_sb = { 0 },
-		writep_sb = { 0 };
+	IO_STATUS_BLOCK			      dirp_sb = { 0 },
+					     filep_sb = { 0 },
+					    writep_sb = { 0 };
 	OBJECT_ATTRIBUTES		   dir_objatt = { 0 },
-		file_objatt = { 0 };
-	HANDLE					   file_Handle = NULL,
-		Dir_Handle = NULL;
-	UNICODE_STRING				 file_Dir = { 0 },
-		dump_File = { 0 };
+					  file_objatt = { 0 };
+	HANDLE				   file_Handle = NULL,
+					    Dir_Handle = NULL;
+	UNICODE_STRING			     file_Dir = { 0 },
+					    dump_File = { 0 };
 
 	///converting wchar to unicode
 	RtlInitUnicodeString(&file_Dir, DumpFolder);
