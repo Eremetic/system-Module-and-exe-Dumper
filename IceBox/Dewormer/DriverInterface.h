@@ -29,7 +29,7 @@ public:
 				&request, sizeof(DUMP_PROCESS), &Bytes, NULL);
 		
 
-			return (ULONG)request.Response;
+			return request.Response;
 		}
 
 		ULONG Dump_Module(WCHAR* DumpFolder, WCHAR* DumpName, WCHAR* targetModule)
