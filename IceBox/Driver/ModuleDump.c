@@ -12,11 +12,11 @@ static PVOID Query_Module(IN WCHAR* module, OUT PULONG ImageSize)
 #endif
 	
 	PSYSTEM_MODULE_INFORMATION   p_smi;
-	ULONG				  szBuffer = 0,
-						   szimage = 0;
-	ANSI_STRING			  temp = { 0 };
+	ULONG		      szBuffer = 0,
+			       szimage = 0;
+	ANSI_STRING	      temp = { 0 };
 	UNICODE_STRING	cur_Module = { 0 };
-	PVOID			  Base_Addr = NULL;
+	PVOID		  Base_Addr = NULL;
 
 	///calling to get buffer size
 	ZwQuerySystemInformation(SystemModuleInformation, 0, szBuffer, &szBuffer);
@@ -83,8 +83,8 @@ static ULONG Read_Write_File(IN LPVOID BaseAddr, IN WCHAR* DumpFolder, IN WCHAR*
 
 
 	ULONG			    status = 0;
-	MM_COPY_ADDRESS p_Copy = { 0 };
-	SIZE_T				 Bytes = 0;
+	MM_COPY_ADDRESS 	p_Copy = { 0 };
+	SIZE_T			     Bytes = 0;
 	LPVOID			pBuffer = NULL;
 
 	///securing and zero struct
@@ -232,7 +232,7 @@ ULONG Dump_Module(IN WCHAR* DumpFolder, IN WCHAR* DumpName, IN WCHAR* Module)
 	DbgPrint("[+]Dump_Module() Function Called\n");
 #endif
 	
-	ULONG					status = 0;
+	ULONG				status = 0;
 	PVOID		 	  Base_Addr = NULL;
 	ULONG			    Image_Size = 0;
 		
