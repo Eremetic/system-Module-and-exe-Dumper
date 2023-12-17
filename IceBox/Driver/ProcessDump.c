@@ -8,14 +8,14 @@ static LPVOID Process_Query(INT64 Pid, OUT PULONG szProcess)
 	DbgPrint("[+]Process_Query() Function Called With ProcessID : %lld\n", Pid);
 #endif
 
-	NTSTATUS					 status = 0;
+	NTSTATUS			             status = 0;
 	PEPROCESS				 process = NULL;
 	PPEB64					   wow64 = NULL;
-	PPEB_LDR_DATA			   ldr64 = NULL;
+	PPEB_LDR_DATA			           ldr64 = NULL;
 	LPVOID					baseAddr = NULL;
 	ULONG					  imageSize = 0;
-	PKLDR_DATA_TABLE_ENTRY kLdrEntry = NULL,
-						   kLdrFirst = NULL;						 
+	PKLDR_DATA_TABLE_ENTRY                 kLdrEntry = NULL,
+					       kLdrFirst = NULL;						 
 
 
 	RtlSecureZeroMemory(&wow64, sizeof(PEB64));
@@ -27,83 +27,83 @@ static LPVOID Process_Query(INT64 Pid, OUT PULONG szProcess)
 	
 	if(NT_SUCCESS(status = PsLookupProcessByProcessId(C_PTR(Pid), &process)))
 	{
-		
-		Copy_Physical(C_PTR(wow64), C_PTR(((ULONG_PTR)process + PEB)), sizeof(PEB64));
 
-		baseAddr = PsGetProcessSectionBaseAddress(process);
-
-
-#ifdef _DEBUG 
-		DbgPrint("[+]Base Address : 0x%I64x\n", baseAddr);
-#endif
-		if (wow64)
+	Copy_Physical(C_PTR(wow64), C_PTR(((ULONG_PTR)process + PEB)), sizeof(PEB64));
+	
+	baseAddr = PsGetProcessSectionBaseAddress(process);
+	
+	
+	#ifdef _DEBUG 
+	DbgPrint("[+]Base Address : 0x%I64x\n", baseAddr);
+	#endif
+	if (wow64)
+	{
+		Copy_Physical(C_PTR(ldr64), C_PTR(wow64->Ldr), sizeof(PEB_LDR_DATA));
+	
+		if (ldr64->Initialized)
 		{
-			Copy_Physical(C_PTR(ldr64), C_PTR(wow64->Ldr), sizeof(PEB_LDR_DATA));
-
-			if (ldr64->Initialized)
+			Copy_Physical(C_PTR(kLdrFirst), C_PTR((ldr64->InMemoryOrderModuleList.Flink - 0x10)), sizeof(KLDR_DATA_TABLE_ENTRY));
+			Copy_Physical(C_PTR(kLdrEntry), C_PTR(kLdrFirst), sizeof(KLDR_DATA_TABLE_ENTRY));
+	
+			if (kLdrEntry)
 			{
-				Copy_Physical(C_PTR(kLdrFirst), C_PTR((ldr64->InMemoryOrderModuleList.Flink - 0x10)), sizeof(KLDR_DATA_TABLE_ENTRY));
-				Copy_Physical(C_PTR(kLdrEntry), C_PTR(kLdrFirst), sizeof(KLDR_DATA_TABLE_ENTRY));
-
-				if (kLdrEntry)
+				while (1)
 				{
-					while (1)
+	
+					if (kLdrEntry->DllBase == baseAddr)
 					{
-
-						if (kLdrEntry->DllBase == baseAddr)
-						{
-							imageSize = kLdrEntry->SizeOfImage;
-#ifdef _DEBUG 
-							DbgPrint("[+]Image Size of : %lu\n", imageSize);
-#endif
-							break;
-						}
-
-						Copy_Physical(kLdrEntry, C_PTR(kLdrEntry->InLoadOrderLinks.Flink), sizeof(KLDR_DATA_TABLE_ENTRY));
-						if (kLdrEntry == kLdrFirst) break;
+						imageSize = kLdrEntry->SizeOfImage;
+	#ifdef _DEBUG 
+						DbgPrint("[+]Image Size of : %lu\n", imageSize);
+	#endif
+						break;
 					}
+	
+					Copy_Physical(kLdrEntry, C_PTR(kLdrEntry->InLoadOrderLinks.Flink), sizeof(KLDR_DATA_TABLE_ENTRY));
+					if (kLdrEntry == kLdrFirst) break;
 				}
-				else
-#ifdef _DEBUG 
-					DbgPrint("[!]Failed To Get LDR Data Entry\n");
-#endif
 			}
 			else
-#ifdef _DEBUG 
-				DbgPrint("[!]Failed To Get PEB LOADER DATA\n");
-#endif
+	#ifdef _DEBUG 
+				DbgPrint("[!]Failed To Get LDR Data Entry\n");
+	#endif
 		}
 		else
-#ifdef _DEBUG 
-		DbgPrint("[!]Failed To Get PEB\n");
-#endif	
-		ObDereferenceObject(process);
+	#ifdef _DEBUG 
+			DbgPrint("[!]Failed To Get PEB LOADER DATA\n");
+	#endif
 	}
 	else
-#ifdef _DEBUG 
-		DbgPrint("[!]Failed To Get EPROCESS With ERROR : 0x%I64x\n", status);
-#endif	
+	#ifdef _DEBUG 
+	DbgPrint("[!]Failed To Get PEB\n");
+	#endif	
+	ObDereferenceObject(process);
+	}
+	else
+	#ifdef _DEBUG 
+	DbgPrint("[!]Failed To Get EPROCESS With ERROR : 0x%I64x\n", status);
+	#endif	
 	
-
-
-
-
+	
+	
+	
+	
 	if (baseAddr != NULL && imageSize != 0)
 	{
-#ifdef _DEBUG 
-		DbgPrint("[+]Operation Successfull\n");
-#endif
-		
-		*szProcess = imageSize;
-		ObDereferenceObject(process);
-		return baseAddr;
-	}
+	#ifdef _DEBUG 
+	DbgPrint("[+]Operation Successfull\n");
+	#endif
+	
+	*szProcess = imageSize;
+	ObDereferenceObject(process);
+	return baseAddr;
+}
 
 #ifdef _DEBUG 
-	DbgPrint("[+]Operation Unsuccessfull\n");
+DbgPrint("[+]Operation Unsuccessfull\n");
 #endif
 
-	return NULL;
+return NULL;
 }
 
 
