@@ -118,8 +118,8 @@ static ULONG Read_Write_File(IN LPVOID BaseAddr, IN WCHAR* DumpFolder, IN WCHAR*
 
 
 	ULONG			    status = 0;
-	MM_COPY_ADDRESS p_Copy = { 0 };
-	SIZE_T				 Bytes = 0;
+	MM_COPY_ADDRESS 	p_Copy = { 0 };
+        SIZE_T			     Bytes = 0;
 	LPVOID			pBuffer = NULL;
 
 	///securing and zero struct
@@ -272,7 +272,7 @@ ULONG Dump_Process(IN INT64 pPid, IN WCHAR* DumpFolder, IN WCHAR* DumpName)
 
 
 	ULONG	   szImage = 0,
-			    status = 0;
+		    status = 0;
 	LPVOID baseAddr = NULL;
 	
 
