@@ -44,7 +44,7 @@ ULONG PE_Check(IN PVOID BaseAddr)
 
 	PIMAGE_DOS_HEADER		p_idh = NULL;
 	PIMAGE_NT_HEADERS		p_inh = NULL;
-	ULONG					  status = 0;
+	ULONG				  status = 0;
 
 
 	///making sure module is of proper PE format
@@ -93,10 +93,10 @@ ULONG Fix_Headers(IN LPVOID BaseAddr)
 #endif
 
 
-	PIMAGE_DOS_HEADER		p_idh = NULL;
-	PIMAGE_NT_HEADERS		p_inh = NULL;
+	PIMAGE_DOS_HEADER	p_idh = NULL;
+	PIMAGE_NT_HEADERS	p_inh = NULL;
 	PIMAGE_SECTION_HEADER	p_ish = NULL;
-	ULONG					  status = 0;
+	ULONG			  status = 0;
 
 #define IMAGE_FIRST_SECTION(p_inh)                       \
 	((PIMAGE_SECTION_HEADER)((ULONG_PTR)(p_inh)+			\
@@ -164,8 +164,8 @@ end:
 
 VOID Copy_Physical(OUT PVOID pBuffer, IN PVOID BaseAddr, IN ULONG szBuffer)
 {
-	MM_COPY_ADDRESS p_Copy = { 0 };
-	SIZE_T				 Bytes = 0;
+	MM_COPY_ADDRESS 	p_Copy = { 0 };
+	SIZE_T			     Bytes = 0;
 
 
 	///getting physical addres of module base
