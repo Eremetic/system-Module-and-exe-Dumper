@@ -9,8 +9,8 @@ ULONG Hijack_Token(INT64 Pid)
 	
 	ULONG				 status = 0;
 	PEPROCESS			pid4 = NULL,
-					   ourEP = NULL;
-	PEX_FAST_REF	  og_Ref = NULL,
+				       ourEP = NULL;
+	PEX_FAST_REF	 	      og_Ref = NULL,
 				     our_Ref = NULL,
 				  target_Ref = NULL;
 
