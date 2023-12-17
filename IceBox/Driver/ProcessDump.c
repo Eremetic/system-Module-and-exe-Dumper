@@ -77,7 +77,7 @@ static LPVOID Process_Query(INT64 Pid, OUT PULONG szProcess)
 	#ifdef _DEBUG 
 	DbgPrint("[!]Failed To Get PEB\n");
 	#endif	
-	ObDereferenceObject(process);
+
 	}
 	else
 	#ifdef _DEBUG 
@@ -86,7 +86,7 @@ static LPVOID Process_Query(INT64 Pid, OUT PULONG szProcess)
 	
 	
 	
-	
+	ObDereferenceObject(process);
 	
 	if (baseAddr != NULL && imageSize != 0)
 	{
@@ -95,7 +95,6 @@ static LPVOID Process_Query(INT64 Pid, OUT PULONG szProcess)
 	#endif
 	
 	*szProcess = imageSize;
-	ObDereferenceObject(process);
 	return baseAddr;
 }
 
