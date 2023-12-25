@@ -9,4 +9,4 @@ It has also been a training ground for learning, I've included unhooking all dll
 done via console app just for feel. Though i know winform or wpf would be much more user friendly.
 
 Still Implementing process dumper. been attacking it via physical memory but still have a lot to learn, 
-specificlly reading CR3 and walking PML4 to get te proper pages to map to contiguous memory allocation to dump the process.
+specificlly reading CR3 and walking PML4 to get the proper pages to map to contiguous memory allocation to dump the process.
