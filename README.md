@@ -13,10 +13,12 @@ TODO list:
 
 Still Implementing process dumper. been attacking it via physical memory but still have a lot to learn, 
 specificlly reading CR3 and walking PML4 to get the proper pages mapped to contiguous memory allocation then dump the process.
+
+still need to finish hardware breakpoint. Not throwing any errors but also not hitting the breakpoint
  
 !Fix Leaked Driver Device
 
-!Fix Driver Return Values
+!Fix  breakpoint Offset + Base Addres
 
-!Fix  breakpoint Offset Input
+
 
