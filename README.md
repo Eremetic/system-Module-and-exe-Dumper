@@ -10,7 +10,11 @@ It has also been a training ground for learning, I've included unhooking all dll
 
 done via console app just for feel. Though i know winform or wpf would be much more user friendly.
 
+ Currently just using a GDRVLoader exploit to load the driver, thank you "Zer0Condition" it has been reliable.
 
+ I cant thank C5pider, mrD0x, NULL, and Lazaro enough for their help learning and working through problems on this project.
+
+ 
 TODO list:
 
 Still Implementing process dumper. been attacking it via physical memory but still have a lot to learn, 
