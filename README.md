@@ -26,3 +26,6 @@ implement gdrv.sys trace cleaning from loading driver
 call driver functions at runtime as to stack spoof
 
 !Fix Leaked Driver Device
+
+
+current approximant line count 4500
