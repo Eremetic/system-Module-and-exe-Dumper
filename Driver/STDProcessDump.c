@@ -302,98 +302,98 @@ ULONG Dump_Process(IN WCHAR* TargetProc, IN WCHAR* DumpFolder, IN WCHAR* DumpNam
 
 
 /// no clue if this will work 
-ULONG Fix_Pe(IN PVOID baseAddr)
-{
-#ifdef _DEBUG 
-	DbgPrint("[+]Fix_Pe() Function Called\n");
-#endif
-	
-	PIMAGE_DOS_HEADER  dos_Header = NULL;
-	PIMAGE_NT_HEADERS64 nt_Header = NULL;
-	PIMAGE_SECTION_HEADER  iatFix = NULL;
-	ULONG subSize = 0, status = 0, iatData = 0;
-
-	
-
-#define IMAGE_FIRST_SECTION(nt_Header)                       \
-	((PIMAGE_SECTION_HEADER)((ULONG_PTR)(nt_Header)+			\
-	 FIELD_OFFSET(IMAGE_NT_HEADERS64, OptionalHeader) +		\
-		((nt_Header))->FileHeader.SizeOfOptionalHeader))
-	
-	DbgPrint("dosHeader\n");
-
-	dos_Header = (PIMAGE_DOS_HEADER)baseAddr;
-	if (dos_Header->e_magic != IMAGE_DOS_SIG)
-	{
-		status = STATUS_FAILED_EMAGIC;
-		goto end;
-	}
-	
-	DbgPrint("ntHeader\n");
-	nt_Header = (PIMAGE_NT_HEADERS64)((LPBYTE)baseAddr + dos_Header->e_lfanew);
-	if (nt_Header->Signature != IMAGE_NT_SIG)
-	{
-		status = STATUS_FAILED_NT_SIG;
-		goto end;
-	}
-
-	DbgPrint("sectionHeader\n");
-	iatFix = IMAGE_FIRST_SECTION(nt_Header);
-	if (!iatFix)
-	{
-		status = STATUS_FAILED_FIRST_SECTION;
-		goto end;
-	}
-
-	DbgPrint("Fixing Data Directories\n");
-	
-	nt_Header->OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_BOUND_IMPORT].VirtualAddress = 0;
-	nt_Header->OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_BOUND_IMPORT].Size = 0;
-
-	for (int j = nt_Header->OptionalHeader.NumberOfRvaAndSizes; j < IMAGE_NUMBEROF_DIRECTORY_ENTRIES; j++)
-	{
-		nt_Header->OptionalHeader.DataDirectory[j].VirtualAddress = 0;
-		nt_Header->OptionalHeader.DataDirectory[j].Size = 0;
-	}
-
-	nt_Header->OptionalHeader.NumberOfRvaAndSizes = IMAGE_NUMBEROF_DIRECTORY_ENTRIES;
-
-	nt_Header->OptionalHeader.SizeOfHeaders = AlignValue((ULONG64)subSize + nt_Header->OptionalHeader.SizeOfHeaders + \
-	(nt_Header->FileHeader.NumberOfSections * sizeof(IMAGE_SECTION_HEADER)), nt_Header->OptionalHeader.FileAlignment);
-
-	
-	DbgPrint("Removing IAT\n");
-	
-	iatData = nt_Header->OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_IAT].VirtualAddress;
-
-	nt_Header->OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_IAT].VirtualAddress = 0;
-	nt_Header->OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_IAT].Size = 0;
-
-	if (iatData != 0)
-	{
-		for (int n = 0; n < nt_Header->FileHeader.NumberOfSections; n++, iatFix++)
-		{
-			if (iatFix->VirtualAddress <= iatData && iatFix->VirtualAddress + iatFix->Misc.VirtualSize > iatData)
-			{
-				iatFix->Characteristics |= MEMORYREAD | MEMORYWRITE;
-			}
-		}
-	}
-
-
-#ifdef _DEBUG 
-	DbgPrint("[+Fix_Pe() Operation Successfull\n");
-#endif
-
-	return STATUS_SUCCESS;
-
-end:
-#ifdef _DEBUG 
-	DbgPrint("[+Fix_Pe() Operation Unsuccessfull\n");
-#endif
-
-	return status;
-}
+//ULONG Fix_Pe(IN PVOID baseAddr)
+//{
+//#ifdef _DEBUG 
+//	DbgPrint("[+]Fix_Pe() Function Called\n");
+//#endif
+//	
+//	PIMAGE_DOS_HEADER  dos_Header = NULL;
+//	PIMAGE_NT_HEADERS64 nt_Header = NULL;
+//	PIMAGE_SECTION_HEADER  iatFix = NULL;
+//	ULONG subSize = 0, status = 0, iatData = 0;
+//
+//	
+//
+//#define IMAGE_FIRST_SECTION(nt_Header)                       \
+//	((PIMAGE_SECTION_HEADER)((ULONG_PTR)(nt_Header)+			\
+//	 FIELD_OFFSET(IMAGE_NT_HEADERS64, OptionalHeader) +		\
+//		((nt_Header))->FileHeader.SizeOfOptionalHeader))
+//	
+//	DbgPrint("dosHeader\n");
+//
+//	dos_Header = (PIMAGE_DOS_HEADER)baseAddr;
+//	if (dos_Header->e_magic != IMAGE_DOS_SIG)
+//	{
+//		status = STATUS_FAILED_EMAGIC;
+//		goto end;
+//	}
+//	
+//	DbgPrint("ntHeader\n");
+//	nt_Header = (PIMAGE_NT_HEADERS64)((LPBYTE)baseAddr + dos_Header->e_lfanew);
+//	if (nt_Header->Signature != IMAGE_NT_SIG)
+//	{
+//		status = STATUS_FAILED_NT_SIG;
+//		goto end;
+//	}
+//
+//	DbgPrint("sectionHeader\n");
+//	iatFix = IMAGE_FIRST_SECTION(nt_Header);
+//	if (!iatFix)
+//	{
+//		status = STATUS_FAILED_FIRST_SECTION;
+//		goto end;
+//	}
+//
+//	DbgPrint("Fixing Data Directories\n");
+//	
+//	nt_Header->OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_BOUND_IMPORT].VirtualAddress = 0;
+//	nt_Header->OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_BOUND_IMPORT].Size = 0;
+//
+//	for (int j = nt_Header->OptionalHeader.NumberOfRvaAndSizes; j < IMAGE_NUMBEROF_DIRECTORY_ENTRIES; j++)
+//	{
+//		nt_Header->OptionalHeader.DataDirectory[j].VirtualAddress = 0;
+//		nt_Header->OptionalHeader.DataDirectory[j].Size = 0;
+//	}
+//
+//	nt_Header->OptionalHeader.NumberOfRvaAndSizes = IMAGE_NUMBEROF_DIRECTORY_ENTRIES;
+//
+//	nt_Header->OptionalHeader.SizeOfHeaders = AlignValue((ULONG64)subSize + nt_Header->OptionalHeader.SizeOfHeaders + \
+//	(nt_Header->FileHeader.NumberOfSections * sizeof(IMAGE_SECTION_HEADER)), nt_Header->OptionalHeader.FileAlignment);
+//
+//	
+//	DbgPrint("Removing IAT\n");
+//	
+//	iatData = nt_Header->OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_IAT].VirtualAddress;
+//
+//	nt_Header->OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_IAT].VirtualAddress = 0;
+//	nt_Header->OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_IAT].Size = 0;
+//
+//	if (iatData != 0)
+//	{
+//		for (int n = 0; n < nt_Header->FileHeader.NumberOfSections; n++, iatFix++)
+//		{
+//			if (iatFix->VirtualAddress <= iatData && iatFix->VirtualAddress + iatFix->Misc.VirtualSize > iatData)
+//			{
+//				iatFix->Characteristics |= MEMORYREAD | MEMORYWRITE;
+//			}
+//		}
+//	}
+//
+//
+//#ifdef _DEBUG 
+//	DbgPrint("[+Fix_Pe() Operation Successfull\n");
+//#endif
+//
+//	return STATUS_SUCCESS;
+//
+//end:
+//#ifdef _DEBUG 
+//	DbgPrint("[+Fix_Pe() Operation Unsuccessfull\n");
+//#endif
+//
+//	return status;
+//}
 
 
 
