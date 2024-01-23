@@ -138,11 +138,11 @@ void Dump_Process()
 
 
 	LPWSTR reg = const_cast<LPWSTR>(ToWstring(StringObf("\\\\.\\IceBox")));
-	DriverInterface				 driver(reg);
-	std::string							pPid;
-	ULONG						  result = 0;
-	WCHAR*						   process{};
-	WCHAR*				  encryptedProcess{};
+	DriverInterface		driver(reg);
+	std::string		pPid;
+	ULONG				 result = 0;
+	WCHAR*				  process{};
+	WCHAR		 Processv2[MAX_PATH] = { 0 };
 	WCHAR		    curDir[MAX_PATH] = { 0 };
 	WCHAR      dump_Folder[MAX_PATH] = { 0 };
 	WCHAR        dump_Name[MAX_PATH] = { 0 };
@@ -170,6 +170,7 @@ void Dump_Process()
 
 		ULONG select = atoi(pPid.c_str());
 		process = Proc_Comp(select);
+		wmemcpy_s(Processv2, MAX_PATH, process, wcslen(process));
 
 		if (RSHasher(process, ToWstring(StringObf("Invalid"))))
 		{
