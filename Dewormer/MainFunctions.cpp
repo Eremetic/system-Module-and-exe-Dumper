@@ -199,10 +199,10 @@ void Dump_Process()
 	GetCurrentDirectory(MAX_PATH, curDir);
 
 	swprintf_s(dump_Folder, MAX_PATH, ToWstring(StringObf("\\??\\%s\\DUMPS")), curDir);
-	swprintf_s(dump_Name, MAX_PATH, ToWstring(StringObf("%s\\dump_%s")), dump_Folder, process);
+	swprintf_s(dump_Name, MAX_PATH, ToWstring(StringObf("%s\\dump_%s")), dump_Folder, Processv2);
 
 
-	result = driver.Dump_Process(process, dump_Folder, dump_Name);
+	result = driver.Dump_Process(Processv2, dump_Folder, dump_Name);
 
 	switch (result)
 	{
