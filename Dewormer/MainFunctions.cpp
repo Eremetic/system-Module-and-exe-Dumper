@@ -170,7 +170,7 @@ void Dump_Process()
 
 		ULONG select = atoi(pPid.c_str());
 		process = Proc_Comp(select);
-		wmemcpy_s(Processv2, MAX_PATH, process, wcslen(process));
+		wmemcpy_s(Processv2, MAX_PATH, process, wcslen(process)); ///not sure why but process variable goes blank after wprintf_s below
 
 		if (RSHasher(process, ToWstring(StringObf("Invalid"))))
 		{
