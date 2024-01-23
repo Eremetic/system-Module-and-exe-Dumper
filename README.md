@@ -12,7 +12,7 @@ done via console app just for feel. Though i know winform or wpf would be much m
 
 Currently just using a GDRVLoader exploit to load the driver, thank you "Zer0Condition" it has been reliable.
 
-I cant thank  Lazaro, C5pider, mrd0x, NULL, and idov31 cant thank them enough for their help learning and working through problems on this project so far.
+Thank you  Lazaro, C5pider, mrd0x, NULL, and idov31 cant thank them enough for their help learning and working through problems on this project so far.
 
 TODO list:
 
