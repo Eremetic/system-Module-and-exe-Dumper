@@ -143,9 +143,9 @@ VOID Read_Mapped_Data(PVOID pBuffer, IN PUCHAR virtualAddress, IN SIZE_T length,
 
 	if (!NT_SUCCESS(rmd_Status = MmCopyMemory(pBuffer, pCopy, length, MM_COPY_MEMORY_VIRTUAL, &bytes)))
 	{
-		DbgPrint("MmCopyMemory Failed With ERROR : % lu, Number of Bytes Transfered : %llx of %llx\n", rmd_Status, bytes, length);
-#ifdef _DEBUG 
-		DbgPrint("[+]Read_Mapped_Data() Operation Unsuccessfull\n");
+#ifdef _DEBUG 		
+	DbgPrint("MmCopyMemory Failed With ERROR : % lu, Number of Bytes Transfered : %llx of %llx\n", rmd_Status, bytes, length);
+        DbgPrint("[+]Read_Mapped_Data() Operation Unsuccessfull\n");
 #endif
 
 		*status = STATUS_MM_COPY_FAILED;
