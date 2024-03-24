@@ -1,6 +1,6 @@
 PROJECT FOR REVERSE ENGINEERING
 
-Files Up to date as of - 1/23/2023
+Files Up to date as of - 3/24/2023
 
 includes kernel module dumper via kernel driver, 
 Process Dumper via kernel driver, 
@@ -17,8 +17,6 @@ Thank you  Lazaro, C5pider, mrd0x, NULL, and idov31 cant thank them enough for t
 TODO list:
 
 !!!almost done  standard dumper
-
-implement adv dump with suspended process and hardware breakpoint via driver
 
 !Fix Leaked Driver Device
 
