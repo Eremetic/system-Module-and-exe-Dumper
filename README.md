@@ -16,5 +16,5 @@ Thank you  Lazaro, C5pider, mrd0x, NULL, and idov31 cant thank them enough for t
 
 TODO list:
 
-!Fix Leaked Driver Device
+!Fix Leaked Driver Device, so i can unload driver
 
