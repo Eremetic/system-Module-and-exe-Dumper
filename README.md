@@ -14,7 +14,11 @@ Currently just using a GDRVLoader exploit to load the driver, thank you "Zer0Con
 
 Thank you  Lazaro, C5pider, mrd0x, NULL, and idov31 cant thank them enough for their help learning and working through problems on this project so far.
 
+
+this project includes functions for using physical memory but it doesnt use it for the dump as you cant lock physical pages of remote process
+without attaching to process.
+
 TODO list:
 
-!Fix Leaked Driver Device, so i can unload driver
+!Fix Leaked Driver Device, so you can unload driver
 
